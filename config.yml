@@ -1,0 +1,11 @@
+app:
+  app_name: hotels-data-merge
+  region: asia
+  api_port: ":8090"
+http:
+  acme_client:
+    endpoint: "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/acme"
+  patagonia_client:
+    endpoint: "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/patagonia"
+  paperflies_client:
+    endpoint: "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/paperflies"
