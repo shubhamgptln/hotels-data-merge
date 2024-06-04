@@ -5,12 +5,15 @@ import (
 	"time"
 
 	"github.com/jinzhu/configor"
+
+	"hotel-data-merge/app/domain/model"
 )
 
 // Config ...
 type Config struct {
-	App  App  `yaml:"app"`
-	HTTP HTTP `yaml:"http"`
+	App               App                            `yaml:"app"`
+	HTTP              HTTP                           `yaml:"http"`
+	DataMergeStrategy map[string]model.MergeStrategy `yaml:"data_merge_strategy"`
 }
 
 type App struct {
@@ -28,9 +31,6 @@ type HTTP struct {
 
 type Client struct {
 	EndPoint string `yaml:"endpoint" required:"true"`
-}
-
-type MergeStrategy struct {
 }
 
 func LoadConfig(path string) (*Config, error) {
