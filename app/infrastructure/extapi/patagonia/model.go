@@ -47,7 +47,7 @@ func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 		domainData.Images.Rooms = append(domainData.Images.Rooms, ClientHotelImageToDomainImageModel(roomImage))
 	}
 	for _, siteImage := range data.Images.Amenities {
-		domainData.Images.Site = append(domainData.Images.Site, ClientHotelImageToDomainImageModel(siteImage))
+		domainData.Images.Amenities = append(domainData.Images.Amenities, ClientHotelImageToDomainImageModel(siteImage))
 	}
 	return domainData
 }

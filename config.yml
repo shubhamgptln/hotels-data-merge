@@ -9,3 +9,10 @@ http:
     endpoint: "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/patagonia"
   paperflies_client:
     endpoint: "https://5f2be0b4ffc88500167b85a0.mockapi.io/suppliers/paperflies"
+data_merge_strategy:
+  Name: "longest"
+  Description: "append-unique"
+  BookingConditions: "append-unique"
+  Amenities.General: "append-unique"
+  Amenities.Room: "append-unique"
+  Location: "majority-filled"
