@@ -13,7 +13,7 @@ RUN make build
 
 FROM alpine:3.18.3
 RUN apk add --no-cache bash
-RUN apt-get install -y qemu qemu-user-static
+RUN apk add --no-cache qemu
 
 WORKDIR /
 COPY --from=builder /go/src/github.com/shubhamgptln/hotels-data-merge/build/api /
