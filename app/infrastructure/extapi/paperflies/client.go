@@ -1,6 +1,6 @@
 package paperflies
 
-import "hotel-data-merge/app/infrastructure/httpapi"
+import "github.com/shubhamgptln/hotels-data-merge/app/infrastructure/httpapi"
 
 type PaperfliesClient struct {
 	getEndpoint string

@@ -11,13 +11,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 
-	"hotel-data-merge/app/adapter/http/handler"
-	"hotel-data-merge/app/infrastructure/extapi/acme"
-	"hotel-data-merge/app/infrastructure/extapi/paperflies"
-	"hotel-data-merge/app/infrastructure/extapi/patagonia"
-	"hotel-data-merge/app/infrastructure/httpapi"
-	"hotel-data-merge/app/usecase"
-	"hotel-data-merge/bootstrap"
+	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/acme"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/paperflies"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/patagonia"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/httpapi"
+	"github.com/shubhamgptln/hotels-data-merge/app/usecase"
+	"github.com/shubhamgptln/hotels-data-merge/bootstrap"
 )
 
 const ConfigFilePath = "./config.yml"

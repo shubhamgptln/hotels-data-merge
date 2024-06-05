@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"hotel-data-merge/app/domain/model"
-	"hotel-data-merge/app/domain/service"
-	"hotel-data-merge/bootstrap"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/service"
+	"github.com/shubhamgptln/hotels-data-merge/bootstrap"
 )
 
 var _ service.DataMerger = new(DataMerger)

@@ -1,4 +1,4 @@
-module hotel-data-merge
+module github.com/shubhamgptln/hotels-data-merge
 
 go 1.21
 

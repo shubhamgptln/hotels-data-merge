@@ -6,7 +6,7 @@ import (
 
 	"github.com/jinzhu/configor"
 
-	"hotel-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 )
 
 // Config ...

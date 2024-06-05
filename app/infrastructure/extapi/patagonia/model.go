@@ -1,6 +1,6 @@
 package patagonia
 
-import "hotel-data-merge/app/domain/model"
+import "github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 
 type HotelData struct {
 	ID            string        `json:"id"`

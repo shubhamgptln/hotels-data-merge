@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"hotel-data-merge/app/adapter/http/handler/view"
-	"hotel-data-merge/app/adapter/http/rest"
-	"hotel-data-merge/app/domain/service"
+	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler/view"
+	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/rest"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/service"
 )
 
 func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {

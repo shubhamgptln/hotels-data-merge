@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"hotel-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 )
 
 type HotelData struct {

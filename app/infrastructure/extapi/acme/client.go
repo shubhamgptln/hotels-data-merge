@@ -1,6 +1,6 @@
 package acme
 
-import "hotel-data-merge/app/infrastructure/httpapi"
+import "github.com/shubhamgptln/hotels-data-merge/app/infrastructure/httpapi"
 
 type ACMEClient struct {
 	getEndpoint string
