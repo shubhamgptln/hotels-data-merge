@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 type MergeStrategy string
@@ -26,11 +27,12 @@ func (ms *MergeStrategy) LongestString(data []string) string {
 	return result
 }
 
+// Append only unique string irrespective of lowercase or uppercase
 func (ms *MergeStrategy) AppendUniqueEntries(data []string) []string {
 	freq := make(map[string]int, 0)
 	var result []string
 	for _, str := range data {
-		_, ok := freq[str]
+		_, ok := freq[strings.ToLower(str)]
 		if ok {
 			continue
 		}

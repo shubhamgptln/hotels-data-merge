@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 	"github.com/shubhamgptln/hotels-data-merge/app/domain/service"
@@ -71,8 +72,9 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, hotelMap map[s
 				for _, entry := range supplierData {
 					candidateRoomAmenitiesValues = append(candidateRoomAmenitiesValues, entry.Amenities.Room...)
 				}
-				result.Amenities.General = dm.strategySwitcherString(candidateGeneralAmenitiesValues, dm.config.DataMergeStrategy["Amenities.General"])
 				result.Amenities.Room = dm.strategySwitcherString(candidateRoomAmenitiesValues, dm.config.DataMergeStrategy["Amenities.Room"])
+				result.Amenities.General = dm.strategySwitcherString(candidateGeneralAmenitiesValues, dm.config.DataMergeStrategy["Amenities.General"])
+				result.Amenities.General = removeDuplicateValueFromTarget(result.Amenities.General, result.Amenities.Room)
 			case "Location":
 				candidateLocationValues := make([]interface{}, 0)
 				for _, entry := range supplierData {
@@ -174,4 +176,19 @@ func (dm *DataMerger) strategySwitcherInterface(data []interface{}, fieldName st
 		return strategy.AssignFirstNonZeroField(data, fieldName)
 	}
 	return nil
+}
+
+func removeDuplicateValueFromTarget(target []string, source []string) []string {
+	freq := make(map[string]int, 0)
+	for _, sourceEntries := range source {
+		freq[strings.ToLower(sourceEntries)]++
+	}
+	result := make([]string, 0)
+	for _, targetEntries := range target {
+		_, ok := freq[strings.ToLower(targetEntries)]
+		if !ok {
+			result = append(result, targetEntries)
+		}
+	}
+	return result
 }
