@@ -67,7 +67,7 @@ func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []
 			"Patagonia supplier returned err : %v \n"+
 			"Paperflies supplier returned err : %v", acmeErr, patagoniaErr, paperfliesErr)
 	}
-	var result map[string][]*model.Hotel
+	result := make(map[string][]*model.Hotel, 0)
 	for _, entry := range patagoniaData {
 		result[entry.ID] = append(result[entry.ID], entry)
 	}

@@ -29,15 +29,17 @@ func (dm *DataMerger) FetchBestHotelData(ctx context.Context, hotelIDs []string,
 	return dm.MergeDataFromSuppliers(ctx, data)
 }
 
-func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, data []*model.Hotel) ([]*model.Hotel, error) {
-	var hotelMap map[string][]*model.Hotel
+func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, hotelMap map[string][]*model.Hotel) ([]*model.Hotel, error) {
 	var mergedHotelResp []*model.Hotel
-	for _, entry := range data {
-		hotelMap[entry.ID] = append(hotelMap[entry.ID], entry)
-	}
-	for _, supplierData := range hotelMap {
-		result := model.Hotel{}
-		val := reflect.ValueOf(result).Elem()
+	for id, supplierData := range hotelMap {
+		result := model.Hotel{
+			ID:            id,
+			DestinationID: supplierData[0].DestinationID,
+		}
+		val := reflect.ValueOf(result)
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
 		typeOf := val.Type()
 		for i := 0; i < val.NumField(); i++ {
 			fmt.Printf("Field: %v \t Value: %v\n", typeOf.Field(i).Name, val.Field(i).Interface())
@@ -57,9 +59,7 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, data []*model.
 			case "BookingConditions":
 				candidateValues := make([]string, 0)
 				for _, entry := range supplierData {
-					for _, conditions := range entry.BookingConditions {
-						candidateValues = append(candidateValues, conditions)
-					}
+					candidateValues = append(candidateValues, entry.BookingConditions...)
 				}
 				result.BookingConditions = dm.strategySwitcherString(candidateValues, dm.config.DataMergeStrategy["BookingConditions"])
 			case "Amenities":
@@ -76,7 +76,7 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, data []*model.
 			case "Location":
 				candidateLocationValues := make([]interface{}, 0)
 				for _, entry := range supplierData {
-					candidateLocationValues = append(candidateLocationValues, entry)
+					candidateLocationValues = append(candidateLocationValues, entry.Location)
 				}
 				value := dm.strategySwitcherInterface(candidateLocationValues, "", dm.config.DataMergeStrategy["Location"])
 				location, _ := value.(model.Location)
@@ -123,7 +123,7 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, data []*model.
 					})
 				}
 				for url, entry := range candidateRoomImageValues {
-					result.Images.Rooms = append(result.Images.Amenities, model.ImageDetails{
+					result.Images.Rooms = append(result.Images.Rooms, model.ImageDetails{
 						Link:        url,
 						Description: entry,
 					})
@@ -136,7 +136,7 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, data []*model.
 	return mergedHotelResp, nil
 }
 
-// An attempt to hide internal field details from usecase implementation
+// An attempt to hide internal field details from usecase layer implementation
 //func (dm *DataMerger) collectAndMerge(supplierData []*model.Hotel, result *model.Hotel, strategy model.MergeStrategy) {
 //	var fieldValueMap map[string][]interface{}
 //	for _, entry := range supplierData {

@@ -36,10 +36,11 @@ func main() {
 	paperfliesClient := paperflies.NewPaperfliesClient(appConf.HTTP.PaperfliesClient.EndPoint, caller)
 
 	dataProcurer := usecase.NewDataProcurer(acmeClient, patagoniaClient, paperfliesClient)
+	dataMerger := usecase.NewDataMerger(appConf, dataProcurer)
 
 	router := chi.NewRouter()
 	router.Route("/hotels-data", func(ar chi.Router) {
-		ar.Post("/filter", handler.FetchHotelsInformation(dataProcurer))
+		ar.Post("/filter", handler.FetchHotelsInformation(dataMerger))
 	})
 	// Start http server
 	server := http.Server{

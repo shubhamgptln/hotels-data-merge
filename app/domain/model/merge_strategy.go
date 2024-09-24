@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -26,7 +27,7 @@ func (ms *MergeStrategy) LongestString(data []string) string {
 }
 
 func (ms *MergeStrategy) AppendUniqueEntries(data []string) []string {
-	var freq map[string]int
+	freq := make(map[string]int, 0)
 	var result []string
 	for _, str := range data {
 		_, ok := freq[str]
@@ -49,6 +50,7 @@ func (ms *MergeStrategy) MajorityNonZeroField(data []interface{}) interface{} {
 			winner = st
 		}
 	}
+	fmt.Printf("debug Location %v", winner)
 	return winner
 }
 
@@ -79,7 +81,9 @@ func ReadStruct(st interface{}) int {
 		case reflect.Struct:
 			cnt += ReadStruct(f.Interface())
 		default:
-			cnt++
+			if !f.IsZero() {
+				cnt++
+			}
 		}
 	}
 	return cnt

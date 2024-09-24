@@ -36,6 +36,7 @@ func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 			}
 		}
 	}
+	//sanitize
 	if data.Longitude != nil {
 		switch v := data.Longitude.(type) {
 		case string:

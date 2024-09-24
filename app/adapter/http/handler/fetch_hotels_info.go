@@ -10,7 +10,7 @@ import (
 	"hotel-data-merge/app/domain/service"
 )
 
-func FetchHotelsInformation(fetcher service.DataFetcher) http.HandlerFunc {
+func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -24,7 +24,7 @@ func FetchHotelsInformation(fetcher service.DataFetcher) http.HandlerFunc {
 			return
 		}
 
-		hotels, err := fetcher.GatherDataWithFiltering(ctx, hotelFilterInput.HotelIDs, hotelFilterInput.DestinationID)
+		hotels, err := merger.FetchBestHotelData(ctx, hotelFilterInput.HotelIDs, hotelFilterInput.DestinationID)
 		if err != nil {
 			rest.JSONResp(ctx, w, http.StatusInternalServerError, &rest.JSONResponse{
 				StatusCode: http.StatusInternalServerError,
