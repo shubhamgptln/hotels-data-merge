@@ -3,6 +3,7 @@ module github.com/shubhamgptln/hotels-data-merge
 go 1.21
 
 require (
+	github.com/ReneKroon/ttlcache v1.7.0
 	github.com/go-chi/chi/v5 v5.0.12
 	github.com/jinzhu/configor v1.2.2
 	github.com/sirupsen/logrus v1.9.3
