@@ -28,7 +28,7 @@ func NewDataProcurer(
 	}
 }
 
-func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []string, destinationID int64) ([]*model.Hotel, error) {
+func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []string, destinationID int64) (map[string][]*model.Hotel, error) {
 	var wg sync.WaitGroup
 	var acmeErr, paperfliesErr, patagoniaErr error
 	var acmeData, paperfliesData, patagoniaData []*model.Hotel
@@ -67,10 +67,16 @@ func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []
 			"Patagonia supplier returned err : %v \n"+
 			"Paperflies supplier returned err : %v", acmeErr, patagoniaErr, paperfliesErr)
 	}
-	var result []*model.Hotel
-	result = append(result, patagoniaData...)
-	result = append(result, acmeData...)
-	result = append(result, paperfliesData...)
+	var result map[string][]*model.Hotel
+	for _, entry := range patagoniaData {
+		result[entry.ID] = append(result[entry.ID], entry)
+	}
+	for _, entry := range acmeData {
+		result[entry.ID] = append(result[entry.ID], entry)
+	}
+	for _, entry := range paperfliesData {
+		result[entry.ID] = append(result[entry.ID], entry)
+	}
 	fmt.Println(len(result))
 	return result, nil
 }

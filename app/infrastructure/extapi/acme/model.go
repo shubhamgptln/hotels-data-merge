@@ -23,12 +23,17 @@ type HotelData struct {
 
 func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 	var lat, lng float64
+	var ok bool
+	//sanitize
 	if data.Latitude != nil {
 		switch v := data.Latitude.(type) {
 		case string:
 			lat, _ = strconv.ParseFloat(strings.TrimSpace(v), 64)
 		default:
-			lat, _ = v.(float64)
+			lat, ok = v.(float64)
+			if !ok {
+				lat = 0
+			}
 		}
 	}
 	if data.Longitude != nil {
@@ -36,9 +41,13 @@ func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 		case string:
 			lng, _ = strconv.ParseFloat(strings.TrimSpace(v), 64)
 		default:
-			lng, _ = v.(float64)
+			lng, ok = v.(float64)
+			if !ok {
+				lat = 0
+			}
 		}
 	}
+
 	return &model.Hotel{
 		ID:            data.ID,
 		DestinationID: data.DestinationID,
