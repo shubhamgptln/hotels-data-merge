@@ -1,6 +1,6 @@
 package view
 
-import "hotel-data-merge/app/domain/model"
+import "github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 
 type HotelDataRequest struct {
 	DestinationID int64    `json:"destination_id"`

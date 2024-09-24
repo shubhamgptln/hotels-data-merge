@@ -7,8 +7,8 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"hotel-data-merge/app/domain/model"
-	"hotel-data-merge/app/domain/service"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/service"
 )
 
 type DataProcurer struct {

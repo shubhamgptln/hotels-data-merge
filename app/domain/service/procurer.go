@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"hotel-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 )
 
 type DataFetcher interface {

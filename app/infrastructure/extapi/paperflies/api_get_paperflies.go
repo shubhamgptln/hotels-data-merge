@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"hotel-data-merge/app/domain/model"
-	"hotel-data-merge/app/infrastructure/httpapi"
-	"hotel-data-merge/app/infrastructure/httputil"
+	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/httpapi"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/httputil"
 )
 
 func (c *PaperfliesClient) FetchHotelsData(ctx context.Context) ([]*model.Hotel, error) {
