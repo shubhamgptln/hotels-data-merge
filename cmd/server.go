@@ -12,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler"
+	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/cache/inmemory"
 	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/acme"
 	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/paperflies"
 	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/extapi/patagonia"
@@ -35,12 +36,13 @@ func main() {
 	patagoniaClient := patagonia.NewPatagoniaClient(appConf.HTTP.PatagoniaClient.EndPoint, caller)
 	paperfliesClient := paperflies.NewPaperfliesClient(appConf.HTTP.PaperfliesClient.EndPoint, caller)
 
-	dataProcurer := usecase.NewDataProcurer(acmeClient, patagoniaClient, paperfliesClient)
+	inMemoryCache := inmemory.NewInMemoryCache()
+	dataProcurer := usecase.NewDataProcurer(inMemoryCache, acmeClient, patagoniaClient, paperfliesClient)
 	dataMerger := usecase.NewDataMerger(appConf, dataProcurer)
 
 	router := chi.NewRouter()
 	router.Route("/hotels-data", func(ar chi.Router) {
-		ar.Post("/filter", handler.FetchHotelsInformation(dataMerger))
+		ar.Get("/filter", handler.FetchHotelsInformation(dataMerger))
 	})
 	// Start http server
 	server := http.Server{

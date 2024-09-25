@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler/view"
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/rest"
@@ -14,8 +14,10 @@ func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		var hotelFilterInput view.HotelDataRequest
-		if err := json.NewDecoder(req.Body).Decode(&hotelFilterInput); err != nil {
+		hotelIDs := req.URL.Query()["hotel_ids"]
+		destID := req.URL.Query().Get("destination_id")
+		destinationID, err := strconv.ParseInt(destID, 10, 64)
+		if hotelIDs == nil && (err != nil || destID == "") {
 			rest.JSONResp(ctx, w, http.StatusBadRequest, &rest.JSONResponse{
 				StatusCode: http.StatusBadRequest,
 				Error:      err,
@@ -24,7 +26,7 @@ func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {
 			return
 		}
 
-		hotels, err := merger.FetchBestHotelData(ctx, hotelFilterInput.HotelIDs, hotelFilterInput.DestinationID)
+		hotels, err := merger.FetchBestHotelData(ctx, hotelIDs, destinationID)
 		if err != nil {
 			rest.JSONResp(ctx, w, http.StatusInternalServerError, &rest.JSONResponse{
 				StatusCode: http.StatusInternalServerError,

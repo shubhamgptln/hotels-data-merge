@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/ReneKroon/ttlcache"
-	"github.com/sirupsen/logrus"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/infrastructure/cache"
 )
@@ -12,15 +11,13 @@ import (
 // Service ...
 type Service struct {
 	client cache.TTLCacheClient
-	logger *logrus.Entry
 }
 
 // New returns new cache interface
-func NewInMemoryCache(logger *logrus.Entry) cache.Methods {
+func NewInMemoryCache() *Service {
 	c := ttlcache.NewCache()
-	return Service{
+	return &Service{
 		client: c,
-		logger: logger,
 	}
 }
 
