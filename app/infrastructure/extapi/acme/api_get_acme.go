@@ -17,7 +17,7 @@ func (c *ACMEClient) FetchHotelsData(ctx context.Context) ([]*model.Hotel, error
 	successful, err := c.httpClient.Call(context.Background(), api)
 	if successful {
 		for _, hotel := range api.resp {
-			receivedData = append(receivedData, ClientHotelDataToDomainModel(hotel))
+			receivedData = append(receivedData, hotel.ClientHotelDataToDomainModel())
 		}
 	}
 	return receivedData, err

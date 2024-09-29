@@ -11,6 +11,8 @@ const (
 	ErrCacheNotFound = "object is not found"
 )
 
+//go:generate mockgen -source $GOFILE -package cachetest -destination ../../../tests/mocks-gen/cachetest/inmemory_cache_mock.go
+
 // TTLCacheClient cache methods available
 type TTLCacheClient interface {
 	Get(key string) (interface{}, bool)

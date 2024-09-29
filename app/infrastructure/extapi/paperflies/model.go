@@ -33,7 +33,7 @@ type PropertyImage struct {
 	Site  []ImageDetails `json:"site"`
 }
 
-func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
+func (data *HotelData) ClientHotelDataToDomainModel() *model.Hotel {
 	domainData := &model.Hotel{
 		ID:            data.ID,
 		DestinationID: data.DestinationID,

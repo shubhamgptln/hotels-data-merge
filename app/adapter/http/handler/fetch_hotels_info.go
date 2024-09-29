@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler/view"
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/rest"
@@ -15,13 +16,16 @@ func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {
 		ctx := req.Context()
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		hotelIDs := req.URL.Query()["hotel_ids"]
+		if hotelIDs != nil {
+			hotelIDs = strings.Split(hotelIDs[0], ",")
+		}
 		destID := req.URL.Query().Get("destination_id")
 		destinationID, err := strconv.ParseInt(destID, 10, 64)
 		if hotelIDs == nil && (err != nil || destID == "") {
 			rest.JSONResp(ctx, w, http.StatusBadRequest, &rest.JSONResponse{
 				StatusCode: http.StatusBadRequest,
-				Error:      err,
-				Debug:      fmt.Sprintf("error marshalling a req body: %v", req.Body),
+				Error:      fmt.Errorf("BAD_REQUEST").Error(),
+				Debug:      fmt.Sprintf("error getting req params"),
 			})
 			return
 		}
@@ -30,8 +34,8 @@ func FetchHotelsInformation(merger service.DataMerger) http.HandlerFunc {
 		if err != nil {
 			rest.JSONResp(ctx, w, http.StatusInternalServerError, &rest.JSONResponse{
 				StatusCode: http.StatusInternalServerError,
-				Error:      err,
-				Debug:      fmt.Sprintf("error fetching supplier data: %v", hotels),
+				Error:      err.Error(),
+				Debug:      fmt.Sprintf("error from fetcher"),
 			})
 			return
 		}

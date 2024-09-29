@@ -21,12 +21,12 @@ type HotelData struct {
 	Facilities    []string    `json:"Facilities"`
 }
 
-func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
+func (hd *HotelData) ClientHotelDataToDomainModel() *model.Hotel {
 	var lat, lng float64
 	var ok bool
 	//sanitize
-	if data.Latitude != nil {
-		switch v := data.Latitude.(type) {
+	if hd.Latitude != nil {
+		switch v := hd.Latitude.(type) {
 		case string:
 			lat, _ = strconv.ParseFloat(strings.TrimSpace(v), 64)
 		default:
@@ -37,8 +37,8 @@ func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 		}
 	}
 	//sanitize
-	if data.Longitude != nil {
-		switch v := data.Longitude.(type) {
+	if hd.Longitude != nil {
+		switch v := hd.Longitude.(type) {
 		case string:
 			lng, _ = strconv.ParseFloat(strings.TrimSpace(v), 64)
 		default:
@@ -50,19 +50,19 @@ func ClientHotelDataToDomainModel(data *HotelData) *model.Hotel {
 	}
 
 	return &model.Hotel{
-		ID:            data.ID,
-		DestinationID: data.DestinationID,
-		Name:          data.Name,
+		ID:            hd.ID,
+		DestinationID: hd.DestinationID,
+		Name:          hd.Name,
 		Location: model.Location{
 			Lat:     lat,
 			Lng:     lng,
-			Address: data.Address + "," + data.PostalCode,
-			City:    data.City,
-			Country: data.Country,
+			Address: hd.Address + "," + hd.PostalCode,
+			City:    hd.City,
+			Country: hd.Country,
 		},
-		Description: data.Description,
+		Description: hd.Description,
 		Amenities: model.Amenities{
-			General: data.Facilities,
+			General: hd.Facilities,
 		},
 	}
 }
