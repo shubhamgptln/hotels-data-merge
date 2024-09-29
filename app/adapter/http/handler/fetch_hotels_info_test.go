@@ -2,7 +2,6 @@ package handler_test
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -10,16 +9,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/brianvoe/gofakeit/v7"
 	"github.com/go-chi/chi/v5"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler"
-	"github.com/shubhamgptln/hotels-data-merge/app/adapter/http/handler/view"
-	"github.com/shubhamgptln/hotels-data-merge/app/domain/model"
 	"github.com/shubhamgptln/hotels-data-merge/tests/mocks-gen/servicetest"
+	"github.com/shubhamgptln/hotels-data-merge/utils"
 )
 
 func TestFetchHotelData(t *testing.T) {
@@ -45,7 +42,7 @@ func TestFetchHotelData(t *testing.T) {
 		return
 	}
 
-	hotels, respJSON := generateFakeData(hotelId, destination)
+	hotels, respJSON := utils.GenerateFakeData(hotelId, 5432)
 	stubError := errors.New("stub error")
 	urlWithParam := "%s/hotels-data/filter?hotel_ids=%v&destination_id=%s"
 	urlWithoutParam := "%s/hotels-data/filter"
@@ -115,24 +112,4 @@ func TestFetchHotelData(t *testing.T) {
 			b.String(),
 		)
 	})
-}
-
-func generateFakeData(hotelIDs []string, destinationID string) ([]*model.Hotel, string) {
-	hotels := make([]*model.Hotel, 0)
-	for _, id := range hotelIDs {
-		var tempHotel model.Hotel
-		_ = gofakeit.Struct(&tempHotel)
-		tempHotel.ID = id
-		hotels = append(hotels, &tempHotel)
-	}
-	var tempDestHotel model.Hotel
-	_ = gofakeit.Struct(&tempDestHotel)
-	tempDestHotel.ID = destinationID
-	hotels = append(hotels, &tempDestHotel)
-	resp := `{
-		"status_code":200,
-		"data": %s
-	}`
-	bytes, _ := json.Marshal(view.BuildHotelResponse(hotels))
-	return hotels, fmt.Sprintf(resp, string(bytes))
 }

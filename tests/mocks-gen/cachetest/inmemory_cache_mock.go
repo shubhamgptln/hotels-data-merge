@@ -75,43 +75,43 @@ func (mr *MockTTLCacheClientMockRecorder) SetWithTTL(key, data, ttl interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWithTTL", reflect.TypeOf((*MockTTLCacheClient)(nil).SetWithTTL), key, data, ttl)
 }
 
-// MockMethods is a mock of Methods interface.
-type MockMethods struct {
+// MockCaching is a mock of Caching interface.
+type MockCaching struct {
 	ctrl     *gomock.Controller
-	recorder *MockMethodsMockRecorder
+	recorder *MockCachingMockRecorder
 }
 
-// MockMethodsMockRecorder is the mock recorder for MockMethods.
-type MockMethodsMockRecorder struct {
-	mock *MockMethods
+// MockCachingMockRecorder is the mock recorder for MockCaching.
+type MockCachingMockRecorder struct {
+	mock *MockCaching
 }
 
-// NewMockMethods creates a new mock instance.
-func NewMockMethods(ctrl *gomock.Controller) *MockMethods {
-	mock := &MockMethods{ctrl: ctrl}
-	mock.recorder = &MockMethodsMockRecorder{mock}
+// NewMockCaching creates a new mock instance.
+func NewMockCaching(ctrl *gomock.Controller) *MockCaching {
+	mock := &MockCaching{ctrl: ctrl}
+	mock.recorder = &MockCachingMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockMethods) EXPECT() *MockMethodsMockRecorder {
+func (m *MockCaching) EXPECT() *MockCachingMockRecorder {
 	return m.recorder
 }
 
 // Delete mocks base method.
-func (m *MockMethods) Delete(key string) {
+func (m *MockCaching) Delete(key string) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Delete", key)
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockMethodsMockRecorder) Delete(key interface{}) *gomock.Call {
+func (mr *MockCachingMockRecorder) Delete(key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockMethods)(nil).Delete), key)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockCaching)(nil).Delete), key)
 }
 
 // Get mocks base method.
-func (m *MockMethods) Get(key string) (interface{}, bool) {
+func (m *MockCaching) Get(key string) (interface{}, bool) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", key)
 	ret0, _ := ret[0].(interface{})
@@ -120,13 +120,13 @@ func (m *MockMethods) Get(key string) (interface{}, bool) {
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockMethodsMockRecorder) Get(key interface{}) *gomock.Call {
+func (mr *MockCachingMockRecorder) Get(key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockMethods)(nil).Get), key)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCaching)(nil).Get), key)
 }
 
 // Set mocks base method.
-func (m *MockMethods) Set(key, value string, ttl time.Duration) bool {
+func (m *MockCaching) Set(key, value string, ttl time.Duration) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Set", key, value, ttl)
 	ret0, _ := ret[0].(bool)
@@ -134,7 +134,7 @@ func (m *MockMethods) Set(key, value string, ttl time.Duration) bool {
 }
 
 // Set indicates an expected call of Set.
-func (mr *MockMethodsMockRecorder) Set(key, value, ttl interface{}) *gomock.Call {
+func (mr *MockCachingMockRecorder) Set(key, value, ttl interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Set", reflect.TypeOf((*MockMethods)(nil).Set), key, value, ttl)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Set", reflect.TypeOf((*MockCaching)(nil).Set), key, value, ttl)
 }

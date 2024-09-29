@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -52,7 +51,6 @@ func (ms *MergeStrategy) MajorityNonZeroField(data []interface{}) interface{} {
 			winner = st
 		}
 	}
-	fmt.Printf("debug Location %v", winner)
 	return winner
 }
 

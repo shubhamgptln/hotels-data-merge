@@ -7,7 +7,7 @@
         make run-api
 2. Make a curl request :-
         
-         `curl -v 'http://localhost:8090/hotels-data/filter' --data '{"hotel_id": ["iJhz","f8c9","SjyX"],"destination_id": {fill}}'
+         curl -v 'http://localhost:8090/hotels-data/filter?hotel_ids=iJhz,f8c9&destination_id=5432'
 
 ## **Merge Strategy**
 1. Name is the longest string among all the supplier entries.
@@ -25,7 +25,11 @@ I have used a simple typecast for fields which didn't meet the expected model la
 
 ## **Procurement**
 
-I have created a HTTP client for each of the suppliers and called them parallely using goroutines to fetch data quickly. This data is then combined and stored in map with key as hotelID and value as array containing json data from all the suppliers.
+I have created a HTTP client for each of the suppliers and called them parallely using goroutines to fetch data quickly. This data is then combined and stored in map with key as hotelID and value as array containing json data from all the suppliers. 
+
+## **Caching**
+
+Using In memory caching to cache the response form suppliers. Ideally would prefer(and the correct way to do considering response payload can be huge causing OOM) using Redis cache but given the lack of time and extra effort I went with in memory cache.
 
 # **Containerization**
 

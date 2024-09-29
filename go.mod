@@ -2,8 +2,6 @@ module github.com/shubhamgptln/hotels-data-merge
 
 go 1.22
 
-toolchain go1.22.7
-
 require (
 	github.com/ReneKroon/ttlcache v1.7.0
 	github.com/brianvoe/gofakeit/v7 v7.0.4

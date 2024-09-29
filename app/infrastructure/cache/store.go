@@ -20,8 +20,8 @@ type TTLCacheClient interface {
 	Remove(key string) bool
 }
 
-// Methods method available for cache
-type Methods interface {
+// Caching method available for cache
+type Caching interface {
 	Get(key string) (interface{}, bool)
 	Set(key, value string, ttl time.Duration) bool
 	Delete(key string)

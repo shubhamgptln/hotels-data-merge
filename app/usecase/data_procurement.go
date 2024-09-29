@@ -21,14 +21,14 @@ const (
 )
 
 type DataProcurer struct {
-	cache            cache.Methods
+	cache            cache.Caching
 	acmeClient       service.DataSupplier
 	patagoniaClient  service.DataSupplier
 	paperfliesClient service.DataSupplier
 }
 
 func NewDataProcurer(
-	inMemoryCache cache.Methods,
+	inMemoryCache cache.Caching,
 	acmeClient service.DataSupplier,
 	patagoniaClient service.DataSupplier,
 	paperfliesClient service.DataSupplier) *DataProcurer {
@@ -88,7 +88,6 @@ func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []
 		return nil
 	}()
 	wg.Wait()
-	fmt.Printf("length %v,%v,%v", len(patagoniaData), len(paperfliesData), len(acmeData))
 	if acmeErr != nil && patagoniaErr != nil && paperfliesErr != nil {
 		return nil, fmt.Errorf("ACME supplier returned error : %v \n"+
 			"Patagonia supplier returned err : %v \n"+
@@ -104,7 +103,6 @@ func (dp *DataProcurer) GatherDataWithFiltering(ctx context.Context, hotelIDs []
 	for _, entry := range paperfliesData {
 		result[entry.ID] = append(result[entry.ID], entry)
 	}
-	fmt.Println(len(result))
 	return result, nil
 }
 
@@ -132,7 +130,7 @@ func (dp *DataProcurer) cacheMissFunc(ctx context.Context, client service.DataSu
 		return nil, err
 	}
 	byteData, err := json.Marshal(data)
-	if err != nil {
+	if err == nil {
 		dp.cache.Set(acmeCacheKey, string(byteData), expiry)
 	}
 	return data, nil
@@ -145,7 +143,7 @@ func (dp *DataProcurer) cacheHitFunc(ctx context.Context, value interface{}) (
 	if !ok {
 		return nil, fmt.Errorf("value of unidentified type")
 	}
-	err := json.Unmarshal([]byte(val), data)
+	err := json.Unmarshal([]byte(val), &data)
 	if err != nil {
 		return nil, err
 	}

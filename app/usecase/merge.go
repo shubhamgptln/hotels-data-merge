@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -43,7 +42,6 @@ func (dm *DataMerger) MergeDataFromSuppliers(ctx context.Context, hotelMap map[s
 		}
 		typeOf := val.Type()
 		for i := 0; i < val.NumField(); i++ {
-			fmt.Printf("Field: %v \t Value: %v\n", typeOf.Field(i).Name, val.Field(i).Interface())
 			switch typeOf.Field(i).Name {
 			case "Name":
 				candidateValues := make([]string, 0)
@@ -164,6 +162,8 @@ func (dm *DataMerger) strategySwitcherString(data []string, strategy model.Merge
 		return []string{strategy.LongestString(data)}
 	case model.AppendUnique:
 		return strategy.AppendUniqueEntries(data)
+	default:
+		return []string{strategy.LongestString(data)}
 	}
 	return nil
 }
