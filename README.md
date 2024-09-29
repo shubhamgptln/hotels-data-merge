@@ -3,12 +3,14 @@
 ## **Steps To Run**
 
 1. Run the following command :-
-
-        make run-api
+   ```bash
+   make run-api
+   ```
 2. Make a curl request :-
-        
-         curl -v 'http://localhost:8090/hotels-data/filter?hotel_ids=iJhz,f8c9&destination_id=5432'
-
+   ```bash
+   curl -v 'http://localhost:8090/hotels-data/filter?hotel_ids=iJhz,f8c9&destination_id=5432'
+   ```
+   
 ## **Merge Strategy**
 1. Name is the longest string among all the supplier entries.
 2. Description is the longest string among all the supplier entries.
@@ -30,6 +32,14 @@ I have created a HTTP client for each of the suppliers and called them parallely
 ## **Caching**
 
 Using In memory caching to cache the response form suppliers. Ideally would prefer(and the correct way to do considering response payload can be huge causing OOM) using Redis cache but given the lack of time and extra effort I went with in memory cache.
+
+## **Unit Test**
+
+Run the following command :-
+   ```bash
+   make unit-tests
+   ```
+        
 
 # **Containerization**
 

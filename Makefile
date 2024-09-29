@@ -6,6 +6,5 @@ build: ## Build binaries
 unit-tests:
 	go test -v ./...
 
-
 run-api: ## Run the server app
 	go run cmd/server.go
