@@ -17,5 +17,6 @@ RUN apk add --no-cache qemu
 
 WORKDIR /
 COPY --from=builder /go/src/github.com/shubhamgptln/hotels-data-merge/build/api /
+COPY --from=builder /go/src/github.com/shubhamgptln/hotels-data-merge/config.yml /
 EXPOSE 8090
 CMD ["./api"]
