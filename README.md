@@ -46,4 +46,7 @@ Run the following command :-
 There is a DockerFile to containerize the application. Steps to run app container are as follows:-
 1. To build a container 
 
-   `docker build -t hotel-merge-app -f ./deployments/Dockerfile/ .` 
+   `docker build -t hotel-merge-app -f ./deployments/Dockerfile/ .`
+2. To run the container
+
+   `docker run -p 8090:8090 -i hotel-merge-app`
